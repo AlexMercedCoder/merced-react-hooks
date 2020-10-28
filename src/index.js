@@ -54,6 +54,7 @@ export const useLocalStorage = (key, initial) => {
       start = exists
     } else {
       start = initial
+      window.localStorage.setItem(key, initial)
     }
 
     const [state, setState] = React.useState(start)
@@ -87,6 +88,7 @@ export const useSessionStorage = (key, initial) => {
       start = exists
     } else {
       start = initial
+      window.sessionStorage.setItem(key, initial)
     }
 
     const [state, setState] = React.useState(start)

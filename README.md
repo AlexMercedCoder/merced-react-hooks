@@ -17,7 +17,7 @@ import React, { Component } from 'react'
 
 import {
   createDataStore,
-  useForm,
+  useFormState,
   useLocalStorage,
   useSessionStorage
 } from 'merced-react-hooks'
@@ -61,9 +61,9 @@ const Component = (props) => {
 }
 ```
 
-## useForm
+## useFormState
 
-Pass it the initial form state and it will return an array with the formState, handleChange function and resetForm function. 
+Pass it the initial form state and it will return an array with the formState, handleChange function and resetForm function.
 
 ```js
 const [formData, handleChange, resetForm] = useForm({
