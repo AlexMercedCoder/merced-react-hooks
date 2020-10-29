@@ -48,13 +48,15 @@ export const useFormState = (initialState) => {
 export const useLocalStorage = (key, initial) => {
   try {
     const exists = JSON.parse(window.localStorage.getItem(key))
+    const initialState =
+      typeof initial === 'object' ? initial : { [key]: initial }
     let start
 
     if (exists) {
       start = exists
     } else {
-      start = initial
-      window.localStorage.setItem(key, initial)
+      start = initialState
+      window.localStorage.setItem(key, JSON.stringify(start))
     }
 
     const [state, setState] = React.useState(start)
@@ -82,13 +84,15 @@ export const useLocalStorage = (key, initial) => {
 export const useSessionStorage = (key, initial) => {
   try {
     const exists = JSON.parse(window.sessionStorage.getItem(key))
+    const initialState =
+      typeof initial === 'object' ? initial : { [key]: initial }
     let start
 
     if (exists) {
       start = exists
     } else {
-      start = initial
-      window.sessionStorage.setItem(key, initial)
+      start = initialState
+      window.sessionStorage.setItem(key, JSON.stringify(start))
     }
 
     const [state, setState] = React.useState(start)

@@ -87,6 +87,8 @@ return <form onSubmit = {(event) => {
 
 Pass it a key and initialState. It will check session or local storage to see if the key already exists, if it does will create a state with the value of the existing info stored, if it does not exist it will create new state with the initial value.
 
+If you pass in a non-object as the initial, it will add the value to an object with the key being the key parameter. So if do useLocalStorage('token', null) then the state will be the following {token:null}
+
 The function returns the state and a special setState function that updates the local or session storage with each change. Returns an array with state, setState, and a reset function to resetting the state and localStorage to initial.
 
 ```js
