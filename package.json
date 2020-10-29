@@ -1,6 +1,6 @@
 {
   "name": "merced-react-hooks",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "React Hooks Created by Alex Merced",
   "author": "AlexMercedCoder",
   "license": "MIT",
@@ -49,5 +49,6 @@
   },
   "files": [
     "dist"
-  ]
+  ],
+  "dependencies": {}
 }

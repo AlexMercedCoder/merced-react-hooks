@@ -160,7 +160,7 @@ export const createTaskRunner = (initialState, taskList) => {
 /// //////////////////////
 
 export const useDefaultImage = (imgDef, classN) => {
-  const IMG = (props) => {
+  const IMG = React.memo((props) => {
     const handleError = (event) => {
       event.target.src = imgDef
       event.target.onerror = null
@@ -175,7 +175,7 @@ export const useDefaultImage = (imgDef, classN) => {
         ref={props.innerRef}
       />
     )
-  }
+  })
 
   return IMG
 }
