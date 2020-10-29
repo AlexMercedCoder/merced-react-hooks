@@ -38,12 +38,9 @@ export const [DataStore, useDataStore] = createDataStore(initialState, reducer)
 
 ```tsx
 // App.jsx
-import React, { Component } from 'react'
 import {DataStore} from "./DS.js
 
-const App = (props) => {
-  return <DataStore><OtherComponent/></DataStore>
-}
+ReactDOM.render(<DataStore><App/></DataStore>)
 ```
 
 ### Pull data using hook in any component
@@ -58,6 +55,46 @@ const Component = (props) => {
 
   return <><h1>{dataStore.title}</h1>
   <button onClick={() => dispatch({type:"something", payload: 5})}>Click Me</button>
+}
+```
+
+## TaskRunner
+
+useDataStore makes it easy to use a redux like pattern with context and useReducer but it has limitations.
+
+- dispatch calls the reducer which must return the new state
+- can't do async actions in the reducer so makes it hard to encapsulate app logic
+
+The TaskRunner patter instead of passing a reducer function we pass in an object of key/values where each value is a function with the following signature... (state, setState, payload) => {}. So if the function alters state is up to you and they can be async functions that house async logic.
+
+Create a TR.js, define your initial state and TaskRunner Object and
+
+```js
+// Define and initialState and task list
+export const [TaskStore, useTaskStore] = createDataStore(initialState, taskList)
+```
+
+### Wrap Your App Components with DataStore
+
+```tsx
+// index.jsx
+import {DataStore} from "./DS.js
+
+ReactDOM.render(<TaskStore><App/></TaskStore>)
+```
+
+### Pull data using hook in any component
+
+```tsx
+// /components/component.jsx
+import React from "react'
+import {useTaskStore} from "../TR.js"
+
+const Component = (props) => {
+  const {taskStore, runTask} = useDataStore()
+
+  return <><h1>{taskStore.title}</h1>
+  <button onClick={() => runTask("add", 5)}>Click Me</button>
 }
 ```
 

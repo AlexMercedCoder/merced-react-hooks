@@ -129,3 +129,29 @@ export const useOnUpdate = (cb, deps) => {
 export const useOnDismount = (cb) => {
   React.useEffect(() => cb, [])
 }
+
+//////////////////////////
+// +& useTaskRunner
+/////////////////////////
+
+export const createTaskRunner = (initialState, taskList) => {
+  const TR = React.createContext({})
+
+  const useTaskStore = () => {
+    return React.useContext(TR)
+  }
+
+  const TaskStore = (props) => {
+    const [taskStore, setState] = React.useState(initialState)
+
+    const runTask = (task, payload) => {
+      taskList[task](taskStore, setState, payload)
+    }
+
+    return (
+      <TR.Provider value={{ taskStore, runTask }}>{props.children}</TR.Provider>
+    )
+  }
+
+  return [TaskStore, useTaskStore]
+}
