@@ -163,7 +163,7 @@ export const useDefaultImage = (imgDef, classN) => {
   const IMG = (props) => {
     const handleError = (event) => {
       event.target.src = imgDef
-      event.target.onError = null
+      event.target.onerror = null
     }
 
     return (
@@ -172,6 +172,7 @@ export const useDefaultImage = (imgDef, classN) => {
         src={props.src}
         onError={handleError}
         alt={props.alt}
+        ref={props.innerRef}
       />
     )
   }
