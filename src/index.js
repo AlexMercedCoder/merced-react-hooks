@@ -1,9 +1,8 @@
 import React from 'react'
-import styles from './styles.module.css'
 
-//////////////////////////
+/// ///////////////////////
 // +& useDataStore
-/////////////////////////
+/// //////////////////////
 
 export const createDataStore = (initialState, reducer) => {
   const DS = React.createContext({})
@@ -25,9 +24,9 @@ export const createDataStore = (initialState, reducer) => {
   return [DataStore, useDataStore]
 }
 
-//////////////////////////
+/// ///////////////////////
 // +& useFormState
-/////////////////////////
+/// //////////////////////
 
 export const useFormState = (initialState) => {
   const [formData, setFormData] = React.useState(initialState)
@@ -41,9 +40,9 @@ export const useFormState = (initialState) => {
   return [formData, handleChange, reset]
 }
 
-//////////////////////////
+/// ///////////////////////
 // +& useLocalStorage
-/////////////////////////
+/// //////////////////////
 
 export const useLocalStorage = (key, initial) => {
   try {
@@ -77,9 +76,9 @@ export const useLocalStorage = (key, initial) => {
   }
 }
 
-//////////////////////////
+/// ///////////////////////
 // +& useSessionStorage
-/////////////////////////
+/// //////////////////////
 
 export const useSessionStorage = (key, initial) => {
   try {
@@ -114,9 +113,9 @@ export const useSessionStorage = (key, initial) => {
   }
 }
 
-//////////////////////////
+/// ///////////////////////
 // +& LifeCycle Hooks
-/////////////////////////
+/// //////////////////////
 
 export const useOnMount = (cb) => {
   React.useEffect(cb, [])
@@ -130,9 +129,9 @@ export const useOnDismount = (cb) => {
   React.useEffect(() => cb, [])
 }
 
-//////////////////////////
+/// ///////////////////////
 // +& useTaskRunner
-/////////////////////////
+/// //////////////////////
 
 export const createTaskRunner = (initialState, taskList) => {
   const TR = React.createContext({})
@@ -154,4 +153,45 @@ export const createTaskRunner = (initialState, taskList) => {
   }
 
   return [TaskStore, useTaskStore]
+}
+
+/// ///////////////////////
+// +& useDefaultImage
+/// //////////////////////
+
+export const useDefaultImage = (imgDef, classN) => {
+  const IMG = (props) => {
+    const handleError = (event) => {
+      event.target.src = imgDef
+    }
+
+    return (
+      <img
+        className={classN}
+        src={props.src}
+        onError={handleError}
+        alt={props.alt}
+      />
+    )
+  }
+
+  return IMG
+}
+
+/// ///////////////////////
+// +& useFetch
+/// //////////////////////
+
+export const useFetch = (url, config) => {
+  const [state, setState] = React.useState()
+
+  const refetch = () => {
+    fetch(url, config)
+      .then((response) => response.json())
+      .then((data) => setState(data))
+  }
+
+  refetch()
+
+  return [state, refetch]
 }

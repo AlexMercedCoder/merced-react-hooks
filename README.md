@@ -142,6 +142,31 @@ useOnUpdate(callback, depArray) => runs the callback on component mount and agai
 
 useOnDismount(callback) => The callback will run when the component is dismounted.
 
+## useDefaultImage
+
+takes a default url and a css class and returns an Image component which will default to the url provided if an image is broken and be styled by the passed in class.
+
+```js
+
+const AvatarImg = useDefaultImage("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png", "avatar")
+
+return users.map(user => <AvararImg src={user.avatar} alt={user.username}/>)
+
+```
+
+## useFetch
+
+```js
+
+const [apiData, refetchApiData] = useFetch(url, {
+  method: "get",
+  headers: {
+    Authorization
+  }
+})
+
+```
+
 ## License
 
 MIT © [AlexMercedCoder](https://github.com/AlexMercedCoder)
