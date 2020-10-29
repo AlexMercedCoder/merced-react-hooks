@@ -113,3 +113,19 @@ export const useSessionStorage = (key, initial) => {
     alert(error)
   }
 }
+
+//////////////////////////
+// +& LifeCycle Hooks
+/////////////////////////
+
+export const useOnMount = (cb) => {
+  React.useEffect(cb, [])
+}
+
+export const useOnUpdate = (cb, deps) => {
+  React.useEffect(cb, deps)
+}
+
+export const useOnDismount = (cb) => {
+  React.useEffect(() => cb, [])
+}

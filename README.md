@@ -95,6 +95,16 @@ The function returns the state and a special setState function that updates the 
 const [token, setToken, resetToken] = useLocalStorage('token', null)
 ```
 
+## Lifecycle Hooks (useOnMount, useOnUpdate, useOnDismount)
+
+These hooks are just a slight abstraction over the useEffect hook to make your code more semantic.
+
+useOnMount(callback) => runs the callback when component mount and never again
+
+useOnUpdate(callback, depArray) => runs the callback on component mount and again whenever any value in the depArray changes. (Recommend to keep the values in arrays primitives to avoid issues with referential equality)
+
+useOnDismount(callback) => The callback will run when the component is dismounted.
+
 ## License
 
 MIT © [AlexMercedCoder](https://github.com/AlexMercedCoder)
