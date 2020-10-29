@@ -163,6 +163,7 @@ export const useDefaultImage = (imgDef, classN) => {
   const IMG = (props) => {
     const handleError = (event) => {
       event.target.src = imgDef
+      event.target.onError = null
     }
 
     return (
