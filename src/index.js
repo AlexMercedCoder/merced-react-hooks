@@ -135,7 +135,7 @@ export const useLocalReducer = (key, initial, reducer) => {
       return newState
     }
 
-    const [state, dispatch] = React.useReducer(start, midReducer)
+    const [state, dispatch] = React.useReducer(midReducer, start)
 
     return [state, dispatch]
   } catch (error) {
@@ -168,7 +168,7 @@ export const useSessionReducer = (key, initial, reducer) => {
       return newState
     }
 
-    const [state, dispatch] = React.useReducer(start, midReducer)
+    const [state, dispatch] = React.useReducer(midReducer, start)
 
     return [state, dispatch]
   } catch (error) {
