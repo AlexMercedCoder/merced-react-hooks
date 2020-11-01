@@ -58,6 +58,10 @@ const Component = (props) => {
 }
 ```
 
+### createDataStoreLS and createDataStoreSS
+
+same as createDataStore except is also saves to local or session storage
+
 ## TaskRunner
 
 useDataStore makes it easy to use a redux like pattern with context and useReducer but it has limitations.
@@ -71,7 +75,10 @@ Create a TR.js, define your initial state and TaskRunner Object and
 
 ```js
 // Define and initialState and task list
-export const [TaskStore, useTaskStore] = createDataStore(initialState, taskList)
+export const [TaskStore, useTaskStore] = createTaskRunner(
+  initialState,
+  taskList
+)
 ```
 
 ### Wrap Your App Components with DataStore
@@ -82,6 +89,10 @@ import {DataStore} from "./DS.js
 
 ReactDOM.render(<TaskStore><App/></TaskStore>)
 ```
+
+### createTaskRunnerLS and createTaskRunnerSS
+
+Same as Taskrunner but will track to localStorage or sessionStorage
 
 ### Pull data using hook in any component
 
@@ -132,6 +143,14 @@ The function returns the state and a special setState function that updates the 
 const [token, setToken, resetToken] = useLocalStorage('token', null)
 ```
 
+### useLocalReducer and useSessionReducer
+
+Same as use useLocalStorage and useSessionStorage but using a Reducer
+
+```js
+const [state, dispatch] = useLocalReducer('token', initialState, reducer)
+```
+
 ## Lifecycle Hooks (useOnMount, useOnUpdate, useOnDismount)
 
 These hooks are just a slight abstraction over the useEffect hook to make your code more semantic.
@@ -150,21 +169,19 @@ takes a default url and a css class and returns an Image component which will de
 
 const AvatarImg = useDefaultImage("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png", "avatar")
 
-return users.map(user => <AvararImg src={user.avatar} alt={user.username}/>)
+const Component () => users.map(user => <AvararImg src={user.avatar} alt={user.username}/>)
 
 ```
 
 ## useFetch
 
 ```js
-
 const [apiData, refetchApiData] = useFetch(url, {
-  method: "get",
+  method: 'get',
   headers: {
     Authorization
   }
 })
-
 ```
 
 ## License

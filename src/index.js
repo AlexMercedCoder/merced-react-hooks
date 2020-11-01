@@ -66,8 +66,7 @@ export const useLocalStorage = (key, initial) => {
     }
 
     const reset = () => {
-      window.localStorage.removeItem(key)
-      setState(null)
+      setStateStorage(start)
     }
     return [state, setStateStorage, reset]
   } catch (error) {
@@ -102,8 +101,7 @@ export const useSessionStorage = (key, initial) => {
     }
 
     const reset = () => {
-      window.sessionStorage.removeItem(key)
-      setState(null)
+      setStateStorage(start)
     }
 
     return [state, setStateStorage, reset]
@@ -113,6 +111,71 @@ export const useSessionStorage = (key, initial) => {
   }
 }
 
+/// ///////////////////////
+// +& useLocalReducer
+/// //////////////////////
+
+export const useLocalReducer = (key, initial, reducer) => {
+  try {
+    const exists = JSON.parse(window.localStorage.getItem(key))
+    const initialState =
+      typeof initial === 'object' ? initial : { [key]: initial }
+    let start
+
+    if (exists) {
+      start = exists
+    } else {
+      start = initialState
+      window.localStorage.setItem(key, JSON.stringify(start))
+    }
+
+    const midReducer = (currentState, theAction) => {
+      const newState = reducer(currentState, theAction)
+      window.localStorage.setItem(key, JSON.stringify(newState))
+      return newState
+    }
+
+    const [state, dispatch] = React.useReducer(start, midReducer)
+
+    return [state, dispatch]
+  } catch (error) {
+    console.log(error)
+    alert(error)
+  }
+}
+
+/// ///////////////////////
+// +& useSessionReducer
+/// //////////////////////
+
+export const useSessionReducer = (key, initial, reducer) => {
+  try {
+    const exists = JSON.parse(window.sessionStorage.getItem(key))
+    const initialState =
+      typeof initial === 'object' ? initial : { [key]: initial }
+    let start
+
+    if (exists) {
+      start = exists
+    } else {
+      start = initialState
+      window.sessionStorage.setItem(key, JSON.stringify(start))
+    }
+
+    const midReducer = (currentState, theAction) => {
+      const newState = reducer(currentState, theAction)
+      window.sessionStorage.setItem(key, JSON.stringify(newState))
+      return newState
+    }
+
+    const [state, dispatch] = React.useReducer(start, midReducer)
+
+    return [state, dispatch]
+  } catch (error) {
+    console.log(error)
+    alert(error)
+  }
+}
 /// ///////////////////////
 // +& LifeCycle Hooks
 /// //////////////////////
@@ -196,4 +259,118 @@ export const useFetch = (url, config) => {
   refetch()
 
   return [state, refetch]
+}
+
+/// ///////////////////////
+// +& useDataStore LS SS
+/// //////////////////////
+
+export const createDataStoreLS = (initialState, reducer) => {
+  const DS = React.createContext({})
+
+  const useDataStore = () => {
+    return React.useContext(DS)
+  }
+
+  const DataStore = (props) => {
+    const [dataStore, dispatch] = useLocalReducer(
+      'datastore',
+      initialState,
+      reducer
+    )
+
+    return (
+      <DS.Provider value={{ dataStore, dispatch }}>
+        {props.children}
+      </DS.Provider>
+    )
+  }
+
+  return [DataStore, useDataStore]
+}
+/// /////////////////
+/// /////////////////
+export const createDataStoreSS = (initialState, reducer) => {
+  const DS = React.createContext({})
+
+  const useDataStore = () => {
+    return React.useContext(DS)
+  }
+
+  const DataStore = (props) => {
+    const [dataStore, dispatch] = useSessionReducer(
+      'datastore',
+      initialState,
+      reducer
+    )
+
+    return (
+      <DS.Provider value={{ dataStore, dispatch }}>
+        {props.children}
+      </DS.Provider>
+    )
+  }
+
+  return [DataStore, useDataStore]
+}
+
+/// ///////////////////////
+// +& useTaskRunner LS SS
+/// //////////////////////
+
+export const createTaskRunnerLS = (initialState, taskList) => {
+  const TR = React.createContext({})
+
+  const useTaskStore = () => {
+    return React.useContext(TR)
+  }
+
+  const TaskStore = (props) => {
+    const [taskStore, setState, resetTaskStore] = useLocalStorage(
+      'taskstore',
+      initialState
+    )
+
+    const runTask = (task, payload) => {
+      taskList[task](taskStore, setState, payload)
+    }
+
+    return (
+      <TR.Provider value={{ taskStore, runTask, resetTaskStore }}>
+        {props.children}
+      </TR.Provider>
+    )
+  }
+
+  return [TaskStore, useTaskStore]
+}
+
+/// ////////////////////
+/// ////////////////////
+
+export const createTaskRunnerSS = (initialState, taskList) => {
+  const TR = React.createContext({})
+
+  const useTaskStore = () => {
+    return React.useContext(TR)
+  }
+
+  const TaskStore = (props) => {
+    const [taskStore, setState, resetTaskStore] = useSessionStorage(
+      'taskstore',
+      initialState
+    )
+
+    const runTask = (task, payload) => {
+      taskList[task](taskStore, setState, payload)
+    }
+
+    return (
+      <TR.Provider value={{ taskStore, runTask, resetTaskStore }}>
+        {props.children}
+      </TR.Provider>
+    )
+  }
+
+  return [TaskStore, useTaskStore]
 }
