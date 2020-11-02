@@ -374,3 +374,51 @@ export const createTaskRunnerSS = (initialState, taskList) => {
 
   return [TaskStore, useTaskStore]
 }
+
+/// //////////////////
+// useCrud
+/// //////////////////
+
+export const useCrud = (url, headers = {}) => {
+  const [state, setState] = React.useState(null)
+
+  const GET = async () => {
+    const response = await fetch(url, { method: 'get', headers })
+    const data = await response.json()
+    setState(data)
+  }
+
+  const POST = async (body) => {
+    const response = await fetch(url, {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+        ...headers
+      },
+      body: JSON.stringify(body)
+    })
+    GET()
+  }
+
+  const PUT = async (body, id) => {
+    const response = await fetch(url + '/' + id, {
+      method: 'put',
+      headers: {
+        'Content-Type': 'application/json',
+        ...headers
+      },
+      body: JSON.stringify(body)
+    })
+    GET()
+  }
+
+  const DESTROY = async (id) => {
+    const response = await fetch(url + '/' + id, {
+      method: 'delete',
+      headers
+    })
+    GET()
+  }
+
+  return [state, GET, POST, PUT, DESTROY]
+}

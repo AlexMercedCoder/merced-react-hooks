@@ -184,6 +184,39 @@ const [apiData, refetchApiData] = useFetch(url, {
 })
 ```
 
+## useCrud
+
+This is a Hook for quickly generating functions for fetching from CRUD routes on an api that follows rest convention.
+
+Pass in a URL and a headers object with any headers you want included, (Content-Type: application/json is included by default on post and put)
+
+The function returns the state and crud functions in an array.
+
+```js
+import { useCrud } from 'merced-react-hooks'
+
+const [blogs, GetBlogs, PostBlogs, PutBlogs, DestroyBlogs] = useCrud(
+  'https://www.apiurl.com',
+  {
+    Authorization: `bearer ${token}`
+  }
+)
+```
+
+Keep in mind not to include a trailing slash in your API url. The four functions anticipate standard crud routes...
+
+**GET()**
+get "/"
+
+**POST(body)**
+post "/" => body sent as json data
+
+**DESTROY(id)**
+delete "/:id"
+
+**POST(body, id)**
+put "/:id"
+
 ## License
 
 MIT © [AlexMercedCoder](https://github.com/AlexMercedCoder)
