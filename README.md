@@ -75,17 +75,34 @@ Create a TR.js, define your initial state and TaskRunner Object and
 
 ```js
 // Define and initialState and task list
-export const [TaskStore, useTaskStore] = createTaskRunner(
-  initialState,
-  taskList
-)
+        import {createTaskRunner} from "merced-react-hooks"
+
+        //The Initial State
+        const initialState = {
+            count: 0
+        } 
+
+        //The Task List, list of functions to run
+        const taskList = {
+            add: (state, setState, payload) => {
+                setState({...state, count: state.count + payload})
+            },
+            sub: (state, setState, payload) => {
+                setState({...state, count: state.count - payload})
+            }
+        }
+
+        //Generate the TaskStore and useTaskStore hook
+        export const [TaskStore, useTaskStore] = createTaskRunner(
+            initialState,
+            taskList
+            )
 ```
 
-### Wrap Your App Components with DataStore
+### Wrap Your App Components with TaskStore
 
 ```tsx
-// index.jsx
-import {DataStore} from "./DS.js
+import {TaskStore} from "./TR.js"
 
 ReactDOM.render(<TaskStore><App/></TaskStore>)
 ```
