@@ -389,7 +389,7 @@ export const useCrud = (url, headers = {}) => {
   }
 
   const POST = async (body) => {
-    const response = await fetch(url, {
+    await fetch(url, {
       method: 'post',
       headers: {
         'Content-Type': 'application/json',
@@ -401,7 +401,7 @@ export const useCrud = (url, headers = {}) => {
   }
 
   const PUT = async (body, id) => {
-    const response = await fetch(url + '/' + id, {
+    await fetch(url + '/' + id, {
       method: 'put',
       headers: {
         'Content-Type': 'application/json',
@@ -413,7 +413,7 @@ export const useCrud = (url, headers = {}) => {
   }
 
   const DESTROY = async (id) => {
-    const response = await fetch(url + '/' + id, {
+    await fetch(url + '/' + id, {
       method: 'delete',
       headers
     })
@@ -421,4 +421,22 @@ export const useCrud = (url, headers = {}) => {
   }
 
   return [state, GET, POST, PUT, DESTROY]
+}
+
+/// //////////////////////////////
+// Condition
+/// //////////////////////////////
+
+export const Condition = (props) => {
+  const wrong = props.ifnot ?? null
+
+  return props.if ? <>{props.children}</> : wrong
+}
+
+// /////////////////////////////////
+// Loop
+// /////////////////////////////////
+
+export const Loop = ({ withthis, dothat }) => {
+  return withthis.map(dothat)
 }

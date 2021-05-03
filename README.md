@@ -23,6 +23,50 @@ import {
 } from 'merced-react-hooks'
 ```
 
+## Condition
+
+This is a component to conditionally show parts of your JSX, like v-if or ngIf in Vue and Angular. It takes two props.
+
+- if - The condition, an expression to be evaluated as true or false
+
+- ifnot - by default null will be displayed if the condition is false, if you want to display something else pass the desired JSX to the optional ifnot prop.
+
+```jsx
+import { Condition } from 'merced-react-hooks'
+
+const Component = (props) => {
+  return (
+    <div>
+      <h1>Are you old enough to drink?</h1>
+      <Condition if={props.age >= 21} ifnot={<h1>Not Old Enough</h1>}>
+        <h1>You are Old Enough</h1>
+      </Condition>
+    </div>
+  )
+}
+```
+
+## Loop
+
+Loop essentially is just map as a component. It takes two props.
+
+- withthis - The array you want to loop over
+- dothat - An iterator function, same as the one you'd pass to map. The signature being `(item, index) => { return JSXForEachIteminArray}`
+
+```jsx
+import { Loop } from 'merced-react-hooks'
+import Dog from './components/Dog'
+
+const Component = (props) => {
+  return (
+    <Loop
+      withthis={props.dogs}
+      dothat={(dog, index) => <Dog {...dog} key={index} />}
+    />
+  )
+}
+```
+
 ## useDataStore
 
 Pass it the initial state and reducer and it returns a provider component and hook to pull the DataStore state in any component being provided by the provider component.
@@ -75,36 +119,40 @@ Create a TR.js, define your initial state and TaskRunner Object and
 
 ```js
 // Define and initialState and task list
-        import {createTaskRunner} from "merced-react-hooks"
+import { createTaskRunner } from 'merced-react-hooks'
 
-        //The Initial State
-        const initialState = {
-            count: 0
-        } 
+//The Initial State
+const initialState = {
+  count: 0
+}
 
-        //The Task List, list of functions to run
-        const taskList = {
-            add: (state, setState, payload) => {
-                setState({...state, count: state.count + payload})
-            },
-            sub: (state, setState, payload) => {
-                setState({...state, count: state.count - payload})
-            }
-        }
+//The Task List, list of functions to run
+const taskList = {
+  add: (state, setState, payload) => {
+    setState({ ...state, count: state.count + payload })
+  },
+  sub: (state, setState, payload) => {
+    setState({ ...state, count: state.count - payload })
+  }
+}
 
-        //Generate the TaskStore and useTaskStore hook
-        export const [TaskStore, useTaskStore] = createTaskRunner(
-            initialState,
-            taskList
-            )
+//Generate the TaskStore and useTaskStore hook
+export const [TaskStore, useTaskStore] = createTaskRunner(
+  initialState,
+  taskList
+)
 ```
 
 ### Wrap Your App Components with TaskStore
 
 ```tsx
-import {TaskStore} from "./TR.js"
+import { TaskStore } from './TR.js'
 
-ReactDOM.render(<TaskStore><App/></TaskStore>)
+ReactDOM.render(
+  <TaskStore>
+    <App />
+  </TaskStore>
+)
 ```
 
 ### createTaskRunnerLS and createTaskRunnerSS
