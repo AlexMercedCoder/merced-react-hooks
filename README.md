@@ -305,9 +305,9 @@ import {useMap} from `merced-react-hooks`
 const Component = (props) => {
   const [mapState, setMapKey] = useMap({name: "Alex", age: 35})
 
-  const birthday () => setMapKey("age", mapState.age + 1)
+  const birthday () => setMapKey("age", mapState.get("age") + 1)
 
-  return <button onClick={birthday}>Happy Birthday - {mapState.age}</button>
+  return <button onClick={birthday}>Happy Birthday - {mapState.get("age")}</button>
 }
 
 ```
