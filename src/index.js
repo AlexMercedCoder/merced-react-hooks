@@ -440,3 +440,76 @@ export const Condition = (props) => {
 export const Loop = ({ withthis, dothat }) => {
   return withthis.map(dothat)
 }
+
+// /////////////////////////////////
+// useMap
+// /////////////////////////////////
+
+export const useMap = (obj) => {
+  const [state, setState] = React.useState(new Map(Object.entries(obj)))
+
+  const setKey = (key, value) => {
+    const newMap = new Map(state)
+    newMap.set(key, value)
+    setState(newMap)
+  }
+
+  return [state, setKey]
+}
+
+// /////////////////////////////////
+// useObject
+// /////////////////////////////////
+
+export const useObject = (obj) => {
+  const [state, setState] = React.useState({ ...obj })
+
+  const setKey = (key, value) => {
+    const newObj = { ...state }
+    newObj[key] = value
+    setState(newObj)
+  }
+
+  return [state, setKey]
+}
+
+// /////////////////////////////////
+// useArray
+// /////////////////////////////////
+
+export const useArray = (arr) => {
+  const [state, setState] = React.useState([...arr])
+
+  const setter = {
+    push: function (value) {
+      const newState = [...state]
+      newState.push(value)
+      setState(newState)
+    },
+    pop: function () {
+      const newState = [...state]
+      newState.pop()
+      setState(newState)
+    },
+    shift: function () {
+      const newState = [...state]
+      newState.shift()
+      setState(newState)
+    },
+    unshift: function (value) {
+      const newState = [...state]
+      newState.unshift(value)
+      setState(newState)
+    },
+    splice: function (...args) {
+      const newState = [...state]
+      newState.splice(...args)
+      setState(newState)
+    },
+    set: function (arr) {
+      setState(arr)
+    }
+  }
+
+  return [state, setter]
+}

@@ -282,6 +282,67 @@ delete "/:id"
 **POST(body, id)**
 put "/:id"
 
+## useMap & useObject
+
+This creates a new state that is a Map or Object, the setState function returns can be passed a key or a value and will update that key in the state. This helps avoid the boilerplate of creating a new Map or Object copy everytime you want to update state. They both work the same, it's just a matter of whether you want an Object or a Map.
+
+```jsx
+import {useObject} from `merced-react-hooks`
+
+const Component = (props) => {
+  const [objState, setObjKey] = useObject({name: "Alex", age: 35})
+
+  const birthday () => setObjKey("age", objState.age + 1)
+
+  return <button onClick={birthday}>Happy Birthday - {objState.age}</button>
+}
+
+```
+
+```jsx
+import {useMap} from `merced-react-hooks`
+
+const Component = (props) => {
+  const [mapState, setMapKey] = useMap({name: "Alex", age: 35})
+
+  const birthday () => setMapKey("age", mapState.age + 1)
+
+  return <button onClick={birthday}>Happy Birthday - {mapState.age}</button>
+}
+
+```
+
+**When updating the state, shallow copies are made of the Map or Object. Keep in mind if the referential equality of the properties matters in your application**
+
+## useArray
+
+useArray makes it easier to have an array as your state. instead of a setState function it passes back a setter object with versions of the normal array methods that also update the state.
+
+##### Setter Methods (work like original array methods, but update the state)
+
+- setter.push
+- setter.pop
+- setter.splice
+- setter.shift
+- setter.unshift
+- setter.set (this is just the setState function if you need it)
+
+```jsx
+import {useArray, Loop} from `merced-react-hooks`
+
+const Component = (props) => {
+  const [arrState, arrSetter] = useArray([1,2,3,4,5,6])
+
+  return <div>
+  <ul>
+  <Loop withthis={arrState} dothat={(item) => <li>{item}</li>}/>
+  </ul>
+  <button onClick={() => arrSetter.push(arrState.length + 1)}>Next Number</button>
+  <button onClick={arrSetter.pop}>Remove Number</button>
+  </div>
+}
+```
+
 ## License
 
 MIT © [AlexMercedCoder](https://github.com/AlexMercedCoder)
