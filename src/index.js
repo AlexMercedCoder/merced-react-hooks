@@ -256,7 +256,7 @@ export const useFetch = (url, config) => {
       .then((data) => setState(data))
   }
 
-  if (state) {
+  if (!state) {
     refetch()
   }
 
