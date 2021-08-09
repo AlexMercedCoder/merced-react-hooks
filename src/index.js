@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 /// ///////////////////////
 // +& useDataStore
@@ -256,9 +256,9 @@ export const useFetch = (url, config) => {
       .then((data) => setState(data))
   }
 
-  if (!state) {
+  useState(() => {
     refetch()
-  }
+  }, [])
 
   return [state, refetch]
 }
