@@ -248,7 +248,7 @@ export const useDefaultImage = (imgDef, classN) => {
 /// //////////////////////
 
 export const useFetch = (url, config) => {
-  const [state, setState] = React.useState()
+  const [state, setState] = React.useState(null)
 
   const refetch = () => {
     fetch(url, config)
@@ -256,7 +256,9 @@ export const useFetch = (url, config) => {
       .then((data) => setState(data))
   }
 
-  refetch()
+  if (state) {
+    refetch()
+  }
 
   return [state, refetch]
 }
