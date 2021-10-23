@@ -515,3 +515,25 @@ export const useArray = (arr) => {
 
   return [state, setter]
 }
+
+/// ///////////////////////
+// +& GlobalState
+/// //////////////////////
+
+export const createGlobalState = (initialState) => {
+  const GS = React.createContext({})
+
+  const useGlobalState = () => {
+    return React.useContext(GS)
+  }
+
+  const GlobalState = (props) => {
+    const [state, setState] = React.useState(initialState)
+
+    return (
+      <DS.Provider value={{ state, setState }}> {props.children} </DS.Provider>
+    )
+  }
+
+  return [GlobalState, useGlobalState]
+}

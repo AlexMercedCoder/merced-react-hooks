@@ -174,6 +174,41 @@ const Component = (props) => {
 }
 ```
 
+## useGlobalState
+
+Pass it the initial state returns a provider component and hook to pull the GlobalState state in any component being provided by the provider component.
+
+Create a DS.js, define your initial state and reducer function and
+
+```js
+// Define and initialState and Reducer
+export const [GlobalState, useGlobalState] = createGlobalState(initialState, reducer)
+```
+
+### Wrap Your App Components with GlobalState
+
+```tsx
+// App.jsx
+import {GlobalState} from "./GS.js
+
+ReactDOM.render(<GlobalState><App/></GlobalState>)
+```
+
+### Pull data using hook in any component
+
+```tsx
+// /components/component.jsx
+import React from "react'
+import {useGlobalState} from "../DS.js"
+
+const Component = (props) => {
+  const {state, setState} = useGlobalState()
+
+  return <><h1>{state.title}</h1>
+  <button onClick={() => setState({...state, count: state.count + 1})>Click Me</button>
+}
+```
+
 ## useFormState
 
 Pass it the initial form state and it will return an array with the formState, handleChange function and resetForm function.
@@ -194,6 +229,27 @@ return <form onSubmit = {(event) => {
   <input type="text" name="email" onChange={handleChange}>
   <input type="submit" value="submit">
 </form>
+```
+
+If you want to include some validation login create a custom validation function then wrap that and the handle change inside of a new event handler like so:
+
+```js
+
+ const changeWrapper = (event) => {
+   handleChange(event)
+   validation()
+ }
+
+ return <form onSubmit = {(event) => {
+  event.preventDefault()
+  resetForm()
+}}>
+  <input type="text" name="name" onChange={changeWrapper}>
+  <input type="number" name="age" onChange={changeWrapper}>
+  <input type="text" name="email" onChange={changeWrapper}>
+  <input type="submit" value="submit">
+</form>
+
 ```
 
 ## useLocalStorage & useSessionStorage
