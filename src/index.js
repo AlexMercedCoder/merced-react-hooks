@@ -552,16 +552,15 @@ export const createGlobalMap = (initialState) => {
   const useGlobalMapKey = (key) => {
     const gsm = React.useContext(GSM)
 
-    const [value, setValue] = React.useState(gsm.state.get(key))
+    const getValue = () => gsm.state.get(key)
 
     const updateValue = (newVal) => {
-      setValue(newVal)
       if (newVal !== gsm.state.get(key)) {
         gsm.updateMap(key, newVal)
       }
     }
 
-    return [value, updateValue]
+    return [getValue, updateValue]
   }
 
   const GlobalMap = (props) => {

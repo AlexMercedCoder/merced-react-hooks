@@ -231,7 +231,7 @@ export const [GlobalMap, useGlobalMapKey] = createGlobalMap(initialState)
 
 ```tsx
 // App.jsx
-import {GlobalMap} from "./GS.js
+import {GlobalMap} from "./GSM.js
 
 ReactDOM.render(<GlobalState><App/></GlobalState>)
 ```
@@ -243,12 +243,12 @@ import React from "react";
 import { useGlobalMapKey } from "./GSM.js";
 
 const Component = (props) => {
-  const [state, setState] = useGlobalMapKey("count");
+  const [getCount, setCount] = useGlobalMapKey("count");
 
   return (
     <>
       <h1>{state.title}</h1>
-      <button onClick={() => setState({ ...state, count: state.count + 1 })}>
+      <button onClick={() => setCount(getCount() + 1)}>
         Click Me
       </button>
     </>
