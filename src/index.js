@@ -557,7 +557,7 @@ export const createGlobalMap = (initialState) => {
     const updateValue = (newVal) => {
       setValue(newVal)
       if (newVal !== gsm.state.get(key)) {
-        gsm.updateValue(key, newVal)
+        gsm.updateMap(key, newVal)
       }
     }
 
