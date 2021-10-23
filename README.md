@@ -178,11 +178,14 @@ const Component = (props) => {
 
 Pass it the initial state returns a provider component and hook to pull the GlobalState state in any component being provided by the provider component.
 
-Create a DS.js, define your initial state and reducer function and
+Create a GS.js, define your initial state, the useGlobalState hook will return an array with the state and setState function.
 
 ```js
 // Define and initialState and Reducer
-export const [GlobalState, useGlobalState] = createGlobalState(initialState, reducer)
+export const [GlobalState, useGlobalState] = createGlobalState(
+  initialState,
+  reducer
+)
 ```
 
 ### Wrap Your App Components with GlobalState
@@ -203,6 +206,43 @@ import {useGlobalState} from "../DS.js"
 
 const Component = (props) => {
   const {state, setState} = useGlobalState()
+
+  return <><h1>{state.title}</h1>
+  <button onClick={() => setState({...state, count: state.count + 1})>Click Me</button>
+}
+```
+
+## useGlobalMapKey
+
+The goal here was to create something similar Recoil, you pass a map object to createGlobalMap
+
+```js
+// create the initial state
+const initialState = new Map()
+// add a key to original state
+initialState.set('count', 0)
+// Define and initialState and Reducer
+export const [GlobalMap, useGlobalMapKey] = createGlobalMap(initialState)
+```
+
+### Wrap Your App Components with GlobalMap
+
+```tsx
+// App.jsx
+import {GlobalMap} from "./GS.js
+
+ReactDOM.render(<GlobalState><App/></GlobalState>)
+```
+
+### Pull data using hook in any component
+
+```tsx
+// /components/component.jsx
+import React from "react'
+import {useGlobalMapKey} from "../DS.js"
+
+const Component = (props) => {
+  const [state, setState] = useGlobalMapKey("count")
 
   return <><h1>{state.title}</h1>
   <button onClick={() => setState({...state, count: state.count + 1})>Click Me</button>

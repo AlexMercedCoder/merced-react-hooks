@@ -531,9 +531,55 @@ export const createGlobalState = (initialState) => {
     const [state, setState] = React.useState(initialState)
 
     return (
-      <DS.Provider value={{ state, setState }}> {props.children} </DS.Provider>
+      <GS.Provider value={{ state, setState }}> {props.children} </GS.Provider>
     )
   }
 
   return [GlobalState, useGlobalState]
+}
+
+/// ///////////////////////
+// +& GlobalState
+/// //////////////////////
+
+export const createGlobalMap = (initialState) => {
+  if (!initialState instanceof Map) {
+    throw new Error('Must Pass Map Object to createGlobalMap Function')
+  }
+
+  const GSM = React.createContext(null)
+
+  const useGlobalMapKey = (key) => {
+    const gsm = React.useContext(GSM)
+
+    const [value, setValue] = React.useState(gsm.state.get(key))
+
+    const updateValue = (newval) => {
+      setValue(newVal)
+      if (newVal !== gsm.state.get(key)) {
+        gsm.updateValue(key, newval)
+      }
+    }
+
+    return [value, updateValue]
+  }
+
+  const GlobalMap = (props) => {
+    const [state, setState] = React.useState(initialState)
+
+    const updateMap = (k, v) => {
+      const newState = new Map(state)
+      newState.set(k, v)
+      setState(newState)
+    }
+
+    return (
+      <GSM.Provider value={{ state, updateMap }}>
+        {' '}
+        {props.children}{' '}
+      </GSM.Provider>
+    )
+  }
+
+  return [GlobalMap, useGlobalMapKey]
 }
