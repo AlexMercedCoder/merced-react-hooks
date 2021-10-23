@@ -207,8 +207,10 @@ import {useGlobalState} from "../DS.js"
 const Component = (props) => {
   const {state, setState} = useGlobalState()
 
-  return <><h1>{state.title}</h1>
-  <button onClick={() => setState({...state, count: state.count + 1})>Click Me</button>
+  return <>
+  <h1>{state.title}</h1>
+  <button onClick={() => setState({...state, count: state.count + 1})}>Click Me</button>
+  </>
 }
 ```
 
@@ -237,16 +239,23 @@ ReactDOM.render(<GlobalState><App/></GlobalState>)
 ### Pull data using hook in any component
 
 ```tsx
-// /components/component.jsx
-import React from "react'
-import {useGlobalMapKey} from "../DS.js"
+import React from "react";
+import { useGlobalMapKey } from "./GSM.js";
 
 const Component = (props) => {
-  const [state, setState] = useGlobalMapKey("count")
+  const [state, setState] = useGlobalMapKey("count");
 
-  return <><h1>{state.title}</h1>
-  <button onClick={() => setState({...state, count: state.count + 1})>Click Me</button>
-}
+  return (
+    <>
+      <h1>{state.title}</h1>
+      <button onClick={() => setState({ ...state, count: state.count + 1 })}>
+        Click Me
+      </button>
+    </>
+  );
+};
+
+export default Component
 ```
 
 ## useFormState

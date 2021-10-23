@@ -543,7 +543,7 @@ export const createGlobalState = (initialState) => {
 /// //////////////////////
 
 export const createGlobalMap = (initialState) => {
-  if (!initialState instanceof Map) {
+  if (!(initialState instanceof Map)) {
     throw new Error('Must Pass Map Object to createGlobalMap Function')
   }
 
@@ -554,10 +554,10 @@ export const createGlobalMap = (initialState) => {
 
     const [value, setValue] = React.useState(gsm.state.get(key))
 
-    const updateValue = (newval) => {
+    const updateValue = (newVal) => {
       setValue(newVal)
       if (newVal !== gsm.state.get(key)) {
-        gsm.updateValue(key, newval)
+        gsm.updateValue(key, newVal)
       }
     }
 
