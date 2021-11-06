@@ -31,6 +31,7 @@ This is a component to conditionally show parts of your JSX, like v-if or ngIf i
 
 - ifnot - by default null will be displayed if the condition is false, if you want to display something else pass the desired JSX to the optional ifnot prop.
 
+
 ```jsx
 import { Condition } from 'merced-react-hooks'
 
@@ -40,6 +41,23 @@ const Component = (props) => {
       <h1>Are you old enough to drink?</h1>
       <Condition if={props.age >= 21} ifnot={<h1>Not Old Enough</h1>}>
         <h1>You are Old Enough</h1>
+      </Condition>
+    </div>
+  )
+}
+```
+
+- if working with asynchronous data, pass a function returning jsx instead as the child
+
+```jsx
+import { Condition } from 'merced-react-hooks'
+
+const Component = (props) => {
+  return (
+    <div>
+      <h1>Are you old enough to drink?</h1>
+      <Condition if={props.age >= 21} ifnot={<h1>Not Old Enough</h1>}>
+        {() => <h1>You are Old Enough</h1>}
       </Condition>
     </div>
   )

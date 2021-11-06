@@ -431,8 +431,11 @@ export const useCrud = (url, headers = {}) => {
 
 export const Condition = (props) => {
   const wrong = props.ifnot ?? null
-
-  return props.if ? props.children : wrong
+  if (props.children instanceof Function) {
+    return props.if ? props.children : wrong
+  } else {
+    return props.if ? props.children() : wrong
+  }
 }
 
 // /////////////////////////////////
