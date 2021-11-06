@@ -432,7 +432,7 @@ export const useCrud = (url, headers = {}) => {
 export const Condition = (props) => {
   const wrong = props.ifnot ?? null
 
-  return props.if ? <>{props.children}</> : wrong
+  return props.if ? props.children : wrong
 }
 
 // /////////////////////////////////
@@ -581,4 +581,12 @@ export const createGlobalMap = (initialState) => {
   }
 
   return [GlobalMap, useGlobalMapKey]
+}
+
+///////////////////////////////////
+// Create Transform
+///////////////////////////////////
+
+export const createTransform = (transform) => (props) => {
+  return <span className={props.spanClass}>{transform(props.children)}</span>
 }

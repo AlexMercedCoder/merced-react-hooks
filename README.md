@@ -448,6 +448,20 @@ const Component = (props) => {
 }
 ```
 
+## createTransform
+
+createTransform allows you to create components for quick transformation (convert dates, casing etc.). The function takes a component that takes in props.children and returns the transformed value. The createTransform function returns a component that renders a span with the returned value. The component can take a `spanClass` component to give the span a class.
+
+```js
+import {createTransform} from "merced-react-hooks"
+
+const UpperCase = createTransform((child) => child.upperCase())
+
+function Component(props) => {
+  return <h1><UpperCase spanClass="upper">hello world</UpperCase></h1>
+}
+```
+
 ## License
 
 MIT © [AlexMercedCoder](https://github.com/AlexMercedCoder)
