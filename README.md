@@ -29,7 +29,7 @@ This is a component to conditionally show parts of your JSX, like v-if or ngIf i
 
 - if - The condition, an expression to be evaluated as true or false
 
-- ifnot - by default null will be displayed if the condition is false, if you want to display something else pass the desired JSX to the optional ifnot prop.
+- ifnot - by default null will be displayed if the condition is false, if you want to display something else pass the desired JSX to the optional ifnot prop. ifnot can also take a function that returns jsx.
 
 
 ```jsx
